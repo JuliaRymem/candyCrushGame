@@ -69,11 +69,22 @@ const moveIntoSquareBelow = () => {
 if (isFirstRow && currentColorArrangement[i] === '') {
 
 
-    if currentColorArrangement[i + width] === '') {
+    if (currentColorArrangement[i + width] === '') {
       currentColorArrangement[i + width] = currentColorArrangement[i]
       currentColorArrangement[i] = ''
     }
   }
+}
+
+const dragStart = (e) => {
+  console.log(e.target)
+  console.log('drag start')
+}
+const dragDrop = (e) => {
+  console.log('drag drop') 
+}
+const dragEnd = (e) => {
+  console.log('drag end')
 }
 
   const createBoard = () => {
@@ -103,33 +114,29 @@ useEffect(() => {
   return () => clearInterval(timer)
   },[checkForColumnOfFour, checkForRowOfFour, checkForColumnOfThree, checkForRowOfThree, moveIntoSquareBelow, currentColorArrangement])
 
-
-console.log(currentColorArrangement)
-
-return  ( 
-  <div className='app'>
-   <div className='game'>
-      {currentColorArrangement.map((candyColor, index :number) => (
-      <img 
-        key={index} 
-        style={{ backgroundColor: candyColor }} 
-        alt={candyColor}
-        data-id={index} />
-        draggable={true}
-        onDragStart={dragStart}
-        onDragOver={(e) => e.preventDefault()}  
-        onDragEnter={(e) => e.preventDefault()}
-        onDragLeave={(e) => e.preventDefault()}
-        onDrop={dragDrop}
-        ondragEnd={dragEnd}
-
-    ))}
-
-  </div>
+  return (
+    <div className="app">
+        <div className="game">
+            {currentColorArrangement.map((candyColor, index) => (
+                <img
+                    key={index}
+                    src={candyColor}
+                    alt={candyColor}
+                    data-id={index}
+                    draggable={true}
+                    onDragStart={dragStart}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDragEnter={(e) => e.preventDefault()}
+                    onDragLeave={(e) => e.preventDefault()}
+                    onDrop={dragDrop}
+                    onDragEnd={dragEnd}
+                />
+            ))}
+        </div>
 
 </div>
   )
 
-};
+}
 
 export default App
