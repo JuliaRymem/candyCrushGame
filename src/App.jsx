@@ -56,6 +56,26 @@ const App = () =>{
     }
   }
 
+const moveIntoSquareBelow = () => {
+  for (let i = 0; i < 64 - width; i++) {
+  const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
+  const isFirstRow = firstRow.includes(i)
+
+  if (isFirstRow && currentColorArrangement[i] === '') {
+   let randomNumber = Math.floor(Math.random() * candyColors.length)
+    currentColorArrangement[i] = candyColors[randomColor]
+}
+
+if (isFirstRow && currentColorArrangement[i] === '') {
+
+
+    if currentColorArrangement[i + width] === '') {
+      currentColorArrangement[i + width] = currentColorArrangement[i]
+      currentColorArrangement[i] = ''
+    }
+  }
+}
+
   const createBoard = () => {
     const randomColorArrangement = []
   for (let i = 0; i < width * width; i++) {
@@ -77,10 +97,11 @@ useEffect(() => {
     checkForRowOfFour ()
     checkForColumnOfThree()
     checkForRowOfThree()
+    moveIntoSquareBelow()
     setCurrentColorArrangement([...currentColorArrangement])
   }, 100)
   return () => clearInterval(timer)
-  },[checkForColumnOfFour, checkForRowOfFour, checkForColumnOfThree, checkForRowOfThree, currentColorArrangement])
+  },[checkForColumnOfFour, checkForRowOfFour, checkForColumnOfThree, checkForRowOfThree, moveIntoSquareBelow, currentColorArrangement])
 
 
 console.log(currentColorArrangement)
@@ -88,9 +109,20 @@ console.log(currentColorArrangement)
 return  ( 
   <div className='app'>
    <div className='game'>
-      {currentColorArrangement.map((candyColor, index) => (
-    <img key={index} 
-    style={{ backgroundColor: candyColor }} alt={candyColor} />
+      {currentColorArrangement.map((candyColor, index :number) => (
+      <img 
+        key={index} 
+        style={{ backgroundColor: candyColor }} 
+        alt={candyColor}
+        data-id={index} />
+        draggable={true}
+        onDragStart={dragStart}
+        onDragOver={(e) => e.preventDefault()}  
+        onDragEnter={(e) => e.preventDefault()}
+        onDragLeave={(e) => e.preventDefault()}
+        onDrop={dragDrop}
+        ondragEnd={dragEnd}
+
     ))}
 
   </div>
